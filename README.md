@@ -62,6 +62,9 @@ npm install goform
 ```ts
     import Form from 'goform';
 
+    //Activate the form in stages, by default it is false
+    multiStep: boolean
+
     //Receives an object containing the initial value for each form field.
     initialValueofFields = {},
 
@@ -77,6 +80,30 @@ npm install goform
     //Reference of the form, has how to return some features.
     ref
 
+```
+
+References useRef<IFormFunctions>(null)
+```ts
+    //Returns the active page number
+    activePage: number
+
+    //Skip to next page function
+    nextPage(): void
+
+    //Function to return to previous next
+    proviousPage(): void
+
+    //Returns true if it is the last page
+    isLastPage: boolean
+
+    //Submit form and receive data in the Form component's onSubmit
+    handleSubmit(): void
+
+    //Receive an object with errors
+    setErrors(object)
+
+    //Return errors
+    getErrors: () => errors
 ```
 
 ## :blush: Simple documentation for the Group component. ##
@@ -522,7 +549,8 @@ npm install goform
     const formRef = useRef<IFormFunctions>(null)
 
     return (
-      <Form ref={formRef}>
+      //To enable paging in the form, pass multiStep in the Form component
+      <Form ref={formRef} style={{flex: 1}} multiStep>
         <Page01 />
         <Page02 />
       </Form>
@@ -539,6 +567,7 @@ The following tools were used in the construction of the project:
 - [Node.js](https://nodejs.org/en/)
 - [React Native](https://reactnative.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
+- [Dot Object](https://www.npmjs.com/package/dot-object)
 
 ## :memo: License ##
 

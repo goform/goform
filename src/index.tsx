@@ -8,7 +8,7 @@ import React, {
   useState,
 } from 'react';
 import dot from 'dot-object';
-import { View, ViewStyle, Animated, StyleProp } from 'react-native';
+import { View, Animated } from 'react-native';
 
 import { FormContext } from './createContext';
 
@@ -25,6 +25,7 @@ const FormProvider: ForwardRefRenderFunction<IFormFunctions, IPropsForm> = (
     children,
     initialValueofFields = {},
     onSubmit = () => null,
+    multiStep = false,
     style,
     animationStyle,
     animationDuration = 240,
@@ -54,10 +55,12 @@ const FormProvider: ForwardRefRenderFunction<IFormFunctions, IPropsForm> = (
     },
   ).length;
 
-  const forms = React.Children.map(
-    children,
-    (child, index) => index === activePage && child,
-  );
+  const forms = multiStep
+    ? React.Children.map(
+        children,
+        (child, index) => index === activePage && child,
+      )
+    : children;
 
   const handleNewPage = useCallback(
     (direction: 'next' | 'previous') => {
@@ -152,16 +155,6 @@ const FormProvider: ForwardRefRenderFunction<IFormFunctions, IPropsForm> = (
       ? { transform: [{ scale: animation.current }] }
       : animationStyle === 'opacity' && { opacity: animation.current };
 
-  const slide: Animated.WithAnimatedValue<StyleProp<ViewStyle>> = {
-    position: 'relative',
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'nowrap',
-    flexGrow: 0,
-    flexShrink: 0,
-    // left: -(activePage * width),
-  };
-
   const value = React.useMemo(
     () => ({
       nextPage,
@@ -189,11 +182,11 @@ const FormProvider: ForwardRefRenderFunction<IFormFunctions, IPropsForm> = (
   );
 
   return (
-    <View style={style}>
-      <FormContext.Provider value={value}>
-        <Animated.View style={[slide, animationStart]}>{forms}</Animated.View>
-      </FormContext.Provider>
-    </View>
+    <FormContext.Provider value={value}>
+      <Animated.View style={[animationStart, { flex: 1 }]}>
+        <View style={style}>{forms}</View>
+      </Animated.View>
+    </FormContext.Provider>
   );
 };
 

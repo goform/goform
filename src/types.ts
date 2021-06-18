@@ -36,6 +36,7 @@ export interface IPropsForm {
   animationStyle?: 'opacity' | 'scale';
   animationDuration?: number;
   children: ReactNode;
+  multiStep?: boolean;
   style?: ViewStyle;
   initialValueofFields?: IValue;
   onSubmit?: (value: IValue | object) => void;
