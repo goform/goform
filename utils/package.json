@@ -1,0 +1,7 @@
+{
+  "name": "goform/utils",
+  "private": true,
+  "main": "../dist/src/utils",
+  "jsnext:main": "../dist/src/utils",
+  "module": "../dist/src/utils"
+}
